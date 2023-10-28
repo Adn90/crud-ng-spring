@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ICourse } from '../model/course';
 
 @Component({
   selector: 'app-courses',
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent implements OnInit {
+
+  courses: ICourse[] = [{ _id: '1', name: "Angular", category: "Front-end" }];
+  displayedColumns = ["name", "category"]
 
   constructor() { }
 
