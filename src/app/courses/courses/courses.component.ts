@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ICourse } from '../model/course';
+import { CoursesService } from '../service/courses.service';
 
 @Component({
   selector: 'app-courses',
@@ -8,12 +9,20 @@ import { ICourse } from '../model/course';
 })
 export class CoursesComponent implements OnInit {
 
-  courses: ICourse[] = [{ _id: '1', name: "Angular", category: "Front-end" }];
+  courses: ICourse[] = [];
   displayedColumns = ["name", "category"]
 
-  constructor() { }
+  // só é possível pois o CoursesService é @Injectable
+  constructor(
+    private courseService: CoursesService,
+  ) { }
 
   ngOnInit(): void {
+    this.carregarTabela(); 
+  }
+
+  carregarTabela() {
+    this.courses = this.courseService.list();
   }
 
 }
