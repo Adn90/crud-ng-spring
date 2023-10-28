@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
+import { tap, first, take  } from 'rxjs/operators';
+
 import { ICourse } from '../model/course';
 
 
@@ -8,11 +11,15 @@ import { ICourse } from '../model/course';
   providedIn: 'root' // disponível de forma global. Em root
 })
 export class CoursesService {
-
+  private readonly API = '/assets/courses.json';
   // instância  da classe
   constructor(private httpClient: HttpClient) { }
 
-  list(): ICourse[] {
-    return [{ _id: '1', name: "Angular", category: "Front-end" }]
+  list() {
+    return this.httpClient.get<ICourse[]>(this.API)
+    .pipe(
+      first(), // or take(1) // serve para fechar a conexão com server. Aqui, o server não é reativo /um stream de dados/ websocket
+      tap(courses => console.log(courses)),
+    )
   }
 }

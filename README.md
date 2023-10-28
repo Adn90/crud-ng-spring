@@ -15,3 +15,6 @@
 
 $custom-app-primary: mat-palette($mat-blue);
 ```
+# RXJS
+
+- https://stackoverflow.com/questions/42345969/take1-vs-first

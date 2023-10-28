@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { ICourse } from '../model/course';
 import { CoursesService } from '../service/courses.service';
 
@@ -21,8 +22,8 @@ export class CoursesComponent implements OnInit {
     this.carregarTabela(); 
   }
 
-  carregarTabela() {
-    this.courses = this.courseService.list();
+  async carregarTabela() {
+    this.courses = await this.courseService.list().toPromise();
   }
 
 }
