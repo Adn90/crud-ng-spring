@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { tap, first, take  } from 'rxjs/operators';
+import { tap, first, take, delay  } from 'rxjs/operators';
 
 import { ICourse } from '../model/course';
 
@@ -18,6 +18,7 @@ export class CoursesService {
   list() {
     return this.httpClient.get<ICourse[]>(this.API)
     .pipe(
+      delay(5000),
       first(), // or take(1) // serve para fechar a conexão com server. Aqui, o server não é reativo /um stream de dados/ websocket
       tap(courses => console.log(courses)),
     )

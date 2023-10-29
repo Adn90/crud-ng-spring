@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Observable, of } from 'rxjs';
+
 import { ICourse } from '../model/course';
 import { CoursesService } from '../service/courses.service';
 
@@ -10,7 +12,7 @@ import { CoursesService } from '../service/courses.service';
 })
 export class CoursesComponent implements OnInit {
 
-  courses: ICourse[] = [];
+  courses$: Observable<ICourse[]> = of([]);
   displayedColumns = ["name", "category"]
 
   // só é possível pois o CoursesService é @Injectable
@@ -23,7 +25,7 @@ export class CoursesComponent implements OnInit {
   }
 
   async carregarTabela() {
-    this.courses = await this.courseService.list().toPromise();
+    this.courses$ = this.courseService.list();
   }
 
 }
