@@ -18,3 +18,5 @@ $custom-app-primary: mat-palette($mat-blue);
 # RXJS
 
 - https://stackoverflow.com/questions/42345969/take1-vs-first
+- https://stackoverflow.com/questions/69252124/how-to-initialize-observables-in-angular-strict-mode
+- https://www.learnrxjs.io/learn-rxjs/operators/creation/of

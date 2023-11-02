@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+
+import { MatDialog } from '@angular/material/dialog';
 
 import { Observable, of } from 'rxjs';
+import { catchError  } from 'rxjs/operators';
+
+import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
 
 import { ICourse } from '../model/course';
 import { CoursesService } from '../service/courses.service';
@@ -15,8 +21,11 @@ export class CoursesComponent implements OnInit {
   courses$: Observable<ICourse[]> = of([]);
   displayedColumns = ["name", "category"]
 
+  errorHeader: string = "";
+
   // só é possível pois o CoursesService é @Injectable
   constructor(
+    public dialog: MatDialog,
     private courseService: CoursesService,
   ) { }
 
@@ -25,7 +34,21 @@ export class CoursesComponent implements OnInit {
   }
 
   async carregarTabela() {
-    this.courses$ = this.courseService.list();
+    this.courses$ = this.courseService.list()
+    .pipe(
+      catchError((error: HttpErrorResponse ) => {
+        console.log(error)
+        this.onError(`${error.status} - ${error.statusText}`)
+        return of([]);
+      })
+    );
+  }
+
+  onError(errorMsg: string): void {
+    let dialogRef = this.dialog.open(ErrorDialogComponent, {
+      data: errorMsg,
+    });
+
   }
 
 }
