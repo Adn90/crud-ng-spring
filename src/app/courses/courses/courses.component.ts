@@ -10,6 +10,7 @@ import { ErrorDialogComponent } from '../../shared/components/error-dialog/error
 
 import { ICourse } from '../model/course';
 import { CoursesService } from '../service/courses.service';
+import { DialogService } from 'src/app/shared/components/error-dialog/services/dialog.service';
 
 @Component({
   selector: 'app-courses',
@@ -25,7 +26,8 @@ export class CoursesComponent implements OnInit {
 
   // só é possível pois o CoursesService é @Injectable
   constructor(
-    public dialog: MatDialog,
+    private dialog: MatDialog,
+    private dialogService: DialogService,
     private courseService: CoursesService,
   ) { }
 
@@ -38,17 +40,17 @@ export class CoursesComponent implements OnInit {
     .pipe(
       catchError((error: HttpErrorResponse ) => {
         console.log(error)
-        this.onError(`${error.status} - ${error.statusText}`)
+        this.onError(error)
         return of([]);
       })
     );
   }
 
-  onError(errorMsg: string): void {
-    let dialogRef = this.dialog.open(ErrorDialogComponent, {
-      data: errorMsg,
-    });
-
+  onError(error: HttpErrorResponse): void {
+    this.dialogService.onError({
+      title: String(`${error.status} - ${error.statusText}`),
+      message: error.message
+    })
   }
 
 }

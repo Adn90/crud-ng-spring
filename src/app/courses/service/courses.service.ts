@@ -11,7 +11,7 @@ import { ICourse } from '../model/course';
   providedIn: 'root' // disponível de forma global. Em root
 })
 export class CoursesService {
-  private readonly API = '/assets/courses.json';
+  private readonly API = '/assets/courses.ajson';
   // instância  da classe
   constructor(private httpClient: HttpClient) { }
 
