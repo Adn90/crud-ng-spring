@@ -16,7 +16,27 @@
       <!-- Category Column -->
       <ng-container matColumnDef="category">
         <mat-header-cell *matHeaderCellDef> Category </mat-header-cell>
-        <mat-cell *matCellDef="let course"> {{course.category}} </mat-cell>
+        <mat-cell *matCellDef="let course"> 
+          {{course.category}}  
+          <mat-icon aria-label="course category">{{ course.category  | category }}</mat-icon>
+        </mat-cell>
+        
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>
+          Action
+        </mat-header-cell>
+      
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button>
+            <mat-icon>edit</mat-icon>
+          </button>
+      
+          <button mat-icon-button>
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

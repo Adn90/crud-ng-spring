@@ -20,7 +20,7 @@ import { DialogService } from 'src/app/shared/components/error-dialog/services/d
 export class CoursesComponent implements OnInit {
 
   courses$: Observable<ICourse[]> = of([]);
-  displayedColumns = ["name", "category"]
+  displayedColumns = ["name", "category", "action"]
 
   errorHeader: string = "";
 
@@ -53,4 +53,7 @@ export class CoursesComponent implements OnInit {
     })
   }
 
+  viewContact(row: any) {
+    console.log(row)
+  }
 }

@@ -1,20 +1,8 @@
-[{"_id":"1","name":"sagittis dui","category":"quam fringilla"},
-{"_id":"2","name":"lacus morbi","category":"sit amet"},
-{"_id":"3","name":"turpis donec","category":"ullamcorper purus"},
-{"_id":"4","name":"in blandit","category":"eget semper"},
-{"_id":"5","name":"molestie sed","category":"donec diam"},
-{"_id":"6","name":"leo maecenas","category":"luctus et"},
-{"_id":"7","name":"in quam","category":"dui nec"},
-{"_id":"8","name":"porttitor lorem","category":"commodo vulputate"},
-{"_id":"9","name":"parturient montes","category":"convallis eget"},
-{"_id":"10","name":"quis tortor","category":"sit amet"},
-{"_id":"11","name":"eu interdum","category":"magna vulputate"},
-{"_id":"12","name":"nam ultrices","category":"donec diam"},
-{"_id":"13","name":"dictumst morbi","category":"in sagittis"},
-{"_id":"14","name":"lectus pellentesque","category":"at dolor"},
-{"_id":"15","name":"justo in","category":"nec sem"},
-{"_id":"16","name":"in magna","category":"vel accumsan"},
-{"_id":"17","name":"non interdum","category":"nulla suspendisse"},
-{"_id":"18","name":"donec ut","category":"orci vehicula"},
-{"_id":"19","name":"felis sed","category":"aliquet massa"},
-{"_id":"20","name":"vestibulum proin","category":"at feugiat"}]
+[
+  {"_id":"1","name":"Angular","category":"front-end"},
+  {"_id":"2","name":"Vue","category":"front-end"},
+  {"_id":"3","name":"Java","category":"back-end"},
+  {"_id":"4","name":"Python","category":"back-end"},
+  {"_id":"5","name":"React","category":"front-end"},
+  {"_id":"6","name":"Unity","category":"game"}
+]

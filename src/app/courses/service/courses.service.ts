@@ -11,14 +11,14 @@ import { ICourse } from '../model/course';
   providedIn: 'root' // disponível de forma global. Em root
 })
 export class CoursesService {
-  private readonly API = '/assets/courses.ajson';
+  private readonly API = '/assets/courses.json';
   // instância  da classe
   constructor(private httpClient: HttpClient) { }
 
   list() {
     return this.httpClient.get<ICourse[]>(this.API)
     .pipe(
-      delay(5000),
+      delay(100),
       first(), // or take(1) // serve para fechar a conexão com server. Aqui, o server não é reativo /um stream de dados/ websocket
       tap(courses => console.log(courses)),
     )
