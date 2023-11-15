@@ -11,6 +11,7 @@ import { ErrorDialogComponent } from '../../shared/components/error-dialog/error
 import { ICourse } from '../model/course';
 import { CoursesService } from '../service/courses.service';
 import { DialogService } from 'src/app/shared/components/error-dialog/services/dialog.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-courses',
@@ -26,9 +27,10 @@ export class CoursesComponent implements OnInit {
 
   // só é possível pois o CoursesService é @Injectable
   constructor(
-    private dialog: MatDialog,
     private dialogService: DialogService,
     private courseService: CoursesService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute, // referência da rota atual
   ) { }
 
   ngOnInit(): void {
@@ -55,5 +57,9 @@ export class CoursesComponent implements OnInit {
 
   viewContact(row: any) {
     console.log(row)
+  }
+
+  onAdd() {
+    this.router.navigate(['new'], { relativeTo: this.activatedRoute });
   }
 }
