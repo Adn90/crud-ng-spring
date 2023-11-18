@@ -1,0 +1,15 @@
+mat-card {
+ /* sobreescrita do angular material*/
+  max-width: 80%;
+  margin: 2em auto; /* 2x a margem padrão da aplicação*/
+  text-align: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.min-width {
+  width: 100%;
+  min-width: 300px;
+}
