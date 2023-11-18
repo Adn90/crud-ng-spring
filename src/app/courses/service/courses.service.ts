@@ -23,4 +23,10 @@ export class CoursesService {
       tap(courses => console.log(courses)),
     )
   }
+
+  save(course: ICourse) {
+    return this.httpClient.post<ICourse>(this.API, course).pipe(
+      first()
+    );
+  }
 }
