@@ -21,7 +21,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class CoursesComponent implements OnInit {
 
   courses$: Observable<ICourse[]> = of([]);
-  displayedColumns = ["name", "category", "action"]
+  displayedColumns = ["name", "category", "action"];
 
   errorHeader: string = "";
 

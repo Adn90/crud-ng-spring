@@ -15,8 +15,13 @@ import { ICourse } from '../model/course';
 })
 export class CoursesFormComponent implements OnInit {
 
-  form: FormGroup = new FormGroup({});
+  form = this.formBuilder.group({
+    name: [''],
+    category: [''],      
+  });
   titulo: string = "";
+
+  disabledOnSubmit: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -24,10 +29,6 @@ export class CoursesFormComponent implements OnInit {
     private snackBar: MatSnackBar,
     private location: Location,
     ) {
-    this.form = this.formBuilder.group({
-      name: [null],
-      category: [null],      
-    });
   }
 
   ngOnInit(): void {
@@ -37,7 +38,10 @@ export class CoursesFormComponent implements OnInit {
   onSubmit() {
     this.snackBar.dismiss();
     this.courseService.save(this.form.value).subscribe(
-      (data: ICourse) => this.onSucess(data), 
+      (data: ICourse) => {
+        this.onSucess(data);
+        this.disabledOnSubmit = true;
+      }, 
       (error: HttpErrorResponse) => {
         this.onError(error);
       } 

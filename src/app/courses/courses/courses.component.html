@@ -4,55 +4,11 @@
 
   <!-- var Observable courses$ c/ pipe async as courses -->
   <!-- enquanto não terminar a chamdas async, else loading -> spinner -->
-  <div class="example-container mat-elevation-z8" *ngIf="courses$ | async as courses; else loading">
-    <mat-table #table [dataSource]="courses">
-
-      <ng-container matColumnDef="_id">
-        <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
-        <mat-cell *matCellDef="let course"> {{course._id}} </mat-cell>
-      </ng-container>
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-        <mat-cell *matCellDef="let course"> {{course.name}} </mat-cell>
-      </ng-container>
-
-      <!-- Category Column -->
-      <ng-container matColumnDef="category">
-        <mat-header-cell *matHeaderCellDef> Category </mat-header-cell>
-        <mat-cell *matCellDef="let course"> 
-          {{course.category}}  
-          <mat-icon aria-label="course category">{{ course.category  | category }}</mat-icon>
-        </mat-cell>
-      </ng-container>
-
-      <!-- Action Column -->
-      <ng-container matColumnDef="action">
-        <mat-header-cell *matHeaderCellDef>
-          Action
-        </mat-header-cell>
-      
-        <mat-cell *matCellDef="let course">
-
-          <button mat-icon-button color="acent" aria-label="Add course">
-            <mat-icon (click)="onAdd()">add</mat-icon>
-          </button>
-
-          <button mat-icon-button color="acent" aria-label="Edit course">
-            <mat-icon>edit</mat-icon>
-          </button>
-      
-          <button mat-icon-button color="acent" aria-label="Delete course">
-            <mat-icon>delete</mat-icon>
-          </button>
-
-        </mat-cell>
-      </ng-container>
-
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-
-    </mat-table>
+  <div class="example-container mat-elevation-z8 column-flex" *ngIf="courses$ | async as courses; else loading">
+    <app-courses-list
+    [courses]="courses"
+    [displayedColumns]="displayedColumns"
+    ></app-courses-list>
   </div>
 
   <ng-template #loading>
