@@ -20,3 +20,15 @@ $custom-app-primary: mat-palette($mat-blue);
 - https://stackoverflow.com/questions/42345969/take1-vs-first
 - https://stackoverflow.com/questions/69252124/how-to-initialize-observables-in-angular-strict-mode
 - https://www.learnrxjs.io/learn-rxjs/operators/creation/of
+
+
+# Componentes Inteligentes x Componentes de Apresentação
+
+> Componentes Inteligentes - containers
+
+- Possui lógica e consumo de serviços
+- Courses e forms
+
+> Apresentação - components
+
+- apenas geram algo visual, como a tabela que recebe dados vindo do serviço

@@ -8,6 +8,10 @@
     <app-courses-list
     [courses]="courses"
     [displayedColumns]="displayedColumns"
+    [showActions]="true"
+    [showEdit]="false"
+    [showDelete]="false"
+    (add)="onAdd()"
     ></app-courses-list>
   </div>
 

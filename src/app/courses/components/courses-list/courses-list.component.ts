@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ICourse } from '../model/course';
+import { ICourse } from '../../model/course';
 
 @Component({
   selector: 'app-courses-list',
@@ -15,21 +15,27 @@ export class CoursesListComponent implements OnInit {
   @Input() showEdit: boolean = true;
   @Input() showDelete: boolean = true;
   @Input() set showActions(indicator: boolean) {
-    if (!indicator) {
-      let index = this.displayedColumns.indexOf("action");
-      this.displayedColumns.splice(index, 1);    }
+    if (indicator) {
+      this.displayedColumns.push('action');
+      let uniq = [...new Set(this.displayedColumns)];
+      this.displayedColumns = []
+      this.displayedColumns = uniq;
+    }
   };
+  
+  @Output() add = new EventEmitter(false);
 
   constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute, // referência da rota atual
+    // private router: Router,
+    // private activatedRoute: ActivatedRoute, // referência da rota atual
   ) { }
 
   ngOnInit(): void {
   }
 
   onAdd() {
-    this.router.navigate(['new'], { relativeTo: this.activatedRoute });
+    // this.router.navigate(['new'], { relativeTo: this.activatedRoute });
+    this.add.emit(true);
   }
 
 }

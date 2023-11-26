@@ -6,10 +6,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
 import { catchError  } from 'rxjs/operators';
 
-import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
+import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
 
-import { ICourse } from '../model/course';
-import { CoursesService } from '../service/courses.service';
+import { ICourse } from '../../model/course';
+import { CoursesService } from '../../service/courses.service';
 import { DialogService } from 'src/app/shared/components/error-dialog/services/dialog.service';
 import { ActivatedRoute, Router } from '@angular/router';
 

@@ -5,8 +5,8 @@ import { Location } from '@angular/common';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { CoursesService } from '../service/courses.service';
-import { ICourse } from '../model/course';
+import { CoursesService } from '../../service/courses.service';
+import { ICourse } from '../../model/course';
 
 @Component({
   selector: 'app-courses-form',
