@@ -28,7 +28,7 @@
       </button>
 
       <button mat-icon-button color="acent" aria-label="Edit course" *ngIf="showEdit">
-        <mat-icon>edit</mat-icon>
+        <mat-icon (click)="onEdit(course)">edit</mat-icon>
       </button>
   
       <button mat-icon-button color="acent" aria-label="Delete course" *ngIf="showDelete">

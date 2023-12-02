@@ -24,6 +24,7 @@ export class CoursesListComponent implements OnInit {
   };
   
   @Output() add = new EventEmitter(false);
+  @Output() edit = new EventEmitter(false);
 
   constructor(
     // private router: Router,
@@ -36,6 +37,10 @@ export class CoursesListComponent implements OnInit {
   onAdd() {
     // this.router.navigate(['new'], { relativeTo: this.activatedRoute });
     this.add.emit(true);
+  }
+
+  onEdit(course: ICourse) {
+    this.edit.emit(course);
   }
 
 }
