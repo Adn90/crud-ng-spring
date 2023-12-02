@@ -5,7 +5,6 @@ import { tap, first, take, delay  } from 'rxjs/operators';
 
 import { ICourse } from '../model/course';
 
-
 // injeção de dependência
 @Injectable({
   providedIn: 'root' // disponível de forma global. Em root
@@ -28,5 +27,9 @@ export class CoursesService {
     return this.httpClient.post<ICourse>(this.API, course).pipe(
       first()
     );
+  }
+
+  loadById(id: string) {
+    return this.httpClient.get<ICourse>(`${this.API}/${id}`);
   }
 }

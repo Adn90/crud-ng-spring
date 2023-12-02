@@ -3,11 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { CoursesComponent } from './containers/courses/courses.component';
 import { CoursesFormComponent } from './containers/courses-form/courses-form.component';
+import { CourseResolver } from './guards/course.resolver';
 
 const routes: Routes = [
   { path: "", component: CoursesComponent },
-  { path: "new", component: CoursesFormComponent },
-  { path: "edit/:id", component: CoursesFormComponent },
+  { path: "new", component: CoursesFormComponent, resolve: { course: CourseResolver } }, // resolver who listen to the route
+  { path: "edit/:id", component: CoursesFormComponent, resolve: { course: CourseResolver } },
 ];
 
 @NgModule({
