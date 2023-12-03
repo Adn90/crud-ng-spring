@@ -23,13 +23,24 @@ export class CoursesService {
     )
   }
 
-  save(course: ICourse) {
-    return this.httpClient.post<ICourse>(this.API, course).pipe(
-      first()
-    );
+  save(course: Partial<ICourse>) {
+    console.log(course)
+    if (course._id) {
+      console.log('update')
+      return this.update(course);
+    }
+    return this.create(course);
   }
 
   loadById(id: string) {
     return this.httpClient.get<ICourse>(`${this.API}/${id}`);
+  }
+
+  private create(course: Partial<ICourse>) {
+    return this.httpClient.post<ICourse>(this.API, course).pipe(first());
+  }
+
+  private update(course: Partial<ICourse>) {
+    return this.httpClient.put<ICourse>(`${this.API}/${course._id}`, course).pipe(first());
   }
 }

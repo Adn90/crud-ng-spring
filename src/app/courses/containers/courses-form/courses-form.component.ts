@@ -90,6 +90,7 @@ export class CoursesFormComponent implements OnInit {
 
   checkEmpty(form: any) {
     for (var key in form) {
+      if (key == '_id') { continue; } // ignore id.
       if (form[key] === null || form[key] == "")
         return true;
     }
