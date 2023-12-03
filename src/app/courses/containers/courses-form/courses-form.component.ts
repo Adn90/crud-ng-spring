@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { CoursesService } from '../../service/courses.service';
 import { ICourse } from '../../model/course';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-courses-form',
@@ -16,6 +17,7 @@ import { ICourse } from '../../model/course';
 export class CoursesFormComponent implements OnInit {
 
   form = this.formBuilder.group({
+    _id: [''],
     name: [''],
     category: [''],      
   });
@@ -28,15 +30,36 @@ export class CoursesFormComponent implements OnInit {
     private courseService: CoursesService,
     private snackBar: MatSnackBar,
     private location: Location,
+    private activatedRoute: ActivatedRoute,
     ) {
   }
 
   ngOnInit(): void {
     this.titulo = "Detalhes do Curso";
+    this.loadingData();
+  }
+
+  loadingData() {
+    // get data from route
+    // this.activatedRoute.snapshot.data['course'] - the ['course'] was defined in the resolver - routing file
+    // with forms, its need to use setValue or patch
+    const course: ICourse = this.activatedRoute.snapshot.data['course'];
+    console.log(course)
+    if (!this.checkEmpty(course)) {
+      this.form.setValue({
+        _id: course._id,
+        name: course.name,
+        category: course.category,
+      })
+    }
   }
 
   onSubmit() {
     this.snackBar.dismiss();
+    if (this.checkEmpty(this.form.value)) {
+      this.snackBar.open(`Campos não foram preenchidos!`, "", { duration: 3000 } );
+      return;
+    }
     this.courseService.save(this.form.value).subscribe(
       (data: ICourse) => {
         this.onSucess(data);
@@ -63,6 +86,14 @@ export class CoursesFormComponent implements OnInit {
       this.onCancel();
     }, 3000);    
     
+  }
+
+  checkEmpty(form: any) {
+    for (var key in form) {
+      if (form[key] === null || form[key] == "")
+        return true;
+    }
+    return false;
   }
 
 }
