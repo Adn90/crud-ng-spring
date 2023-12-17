@@ -10,9 +10,10 @@
     [displayedColumns]="displayedColumns"
     [showActions]="true"
     [showEdit]="true"
-    [showDelete]="false"
+    [showDelete]="true"
     (add)="onAdd()"
     (edit)="onEdit($event)"
+    (delete)="onDelete($event)"
     ></app-courses-list>
   </div>
 
@@ -21,5 +22,14 @@
       <mat-spinner></mat-spinner>
     </div>    
   </ng-template>
+
+  <div *ngIf="courses$ | async as courses">
+    <button mat-icon-button color="acent" aria-label="Add course">
+      Adicionar Novo Curso
+      <mat-icon (click)="onAdd()">add</mat-icon>
+    </button>
+  </div>
+
+  
 
 </mat-card>

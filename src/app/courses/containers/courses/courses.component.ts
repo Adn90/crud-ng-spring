@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Observable, of } from 'rxjs';
@@ -11,7 +13,7 @@ import { ErrorDialogComponent } from '../../../shared/components/error-dialog/er
 import { ICourse } from '../../model/course';
 import { CoursesService } from '../../service/courses.service';
 import { DialogService } from 'src/app/shared/components/error-dialog/services/dialog.service';
-import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-courses',
@@ -28,6 +30,7 @@ export class CoursesComponent implements OnInit {
   // só é possível pois o CoursesService é @Injectable
   constructor(
     private dialogService: DialogService,
+    private snackBar: MatSnackBar,
     private courseService: CoursesService,
     private router: Router,
     private activatedRoute: ActivatedRoute, // referência da rota atual
@@ -48,7 +51,7 @@ export class CoursesComponent implements OnInit {
     );
   }
 
-  onError(error: HttpErrorResponse): void {
+  onError(error: any): void {
     this.dialogService.onError({
       title: String(`${error.status} - ${error.statusText}`),
       message: error.message
@@ -64,6 +67,26 @@ export class CoursesComponent implements OnInit {
   }
 
   onEdit(course: ICourse) {
-    this.router.navigate(['edit', course._id], { relativeTo: this.activatedRoute });
+    try {
+      this.router.navigate(['edit', course._id], { relativeTo: this.activatedRoute });
+    } catch (error) {
+      this.onError(error)
+    }
+  }
+
+  onDelete(course: ICourse) {
+    this.courseService.remove(course._id).subscribe(
+      async data => {
+        this.snackBar.open(`Curso ${course.name} removido com sucesso!`, 'X',  { 
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center'
+        });
+        await this.carregarTabela();
+      }, 
+      error => {
+        this.onError(error)
+      }
+    );
   }
 }

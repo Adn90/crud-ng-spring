@@ -25,6 +25,7 @@ export class CoursesListComponent implements OnInit {
   
   @Output() add = new EventEmitter(false);
   @Output() edit = new EventEmitter(false);
+  @Output() delete = new EventEmitter(false);
 
   constructor(
     // private router: Router,
@@ -41,6 +42,10 @@ export class CoursesListComponent implements OnInit {
 
   onEdit(course: ICourse) {
     this.edit.emit(course);
+  }
+
+  onDelete(course: ICourse) {
+    this.delete .emit(course);
   }
 
 }
