@@ -13,6 +13,7 @@ import { ErrorDialogComponent } from '../../../shared/components/error-dialog/er
 import { ICourse } from '../../model/course';
 import { CoursesService } from '../../service/courses.service';
 import { DialogService } from 'src/app/shared/components/error-dialog/services/dialog.service';
+import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 
 
 @Component({
@@ -33,7 +34,8 @@ export class CoursesComponent implements OnInit {
     private snackBar: MatSnackBar,
     private courseService: CoursesService,
     private router: Router,
-    private activatedRoute: ActivatedRoute, // referência da rota atual
+    private activatedRoute: ActivatedRoute, // referência da rota atual,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -75,18 +77,26 @@ export class CoursesComponent implements OnInit {
   }
 
   onDelete(course: ICourse) {
-    this.courseService.remove(course._id).subscribe(
-      async data => {
-        this.snackBar.open(`Curso ${course.name} removido com sucesso!`, 'X',  { 
-          duration: 3000,
-          verticalPosition: 'top',
-          horizontalPosition: 'center'
-        });
-        await this.carregarTabela();
-      }, 
-      error => {
-        this.onError(error)
-      }
-    );
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '250px',
+      data: "Deseja remover o curso?"
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (!result) { return; }
+      this.courseService.remove(course._id).subscribe(
+        async data => {
+          this.snackBar.open(`Curso ${course.name} removido com sucesso!`, 'X',  { 
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center'
+          });
+          await this.carregarTabela();
+        }, 
+        error => {
+          this.onError(error)
+        }
+      );
+    });    
   }
 }
