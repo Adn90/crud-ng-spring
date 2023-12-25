@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Location } from '@angular/common';
 
@@ -18,8 +18,13 @@ export class CoursesFormComponent implements OnInit {
 
   form = this.formBuilder.group({
     _id: [''],
-    name: [''],
-    category: [''],      
+    name: ['', [
+      Validators.required, 
+      Validators.minLength(5), 
+      Validators.maxLength(100),
+      Validators.pattern(/[\S]/g)] // whitespace
+    ],
+    category: ['', [Validators.required]],      
   });
   titulo: string = "";
 
@@ -56,10 +61,12 @@ export class CoursesFormComponent implements OnInit {
 
   onSubmit() {
     this.snackBar.dismiss();
-    if (this.checkEmpty(this.form.value)) {
+    console.log(this.form.status)
+    console.log(this.form)
+    if (this.form.status != "VALID") {
       this.snackBar.open(`Campos não foram preenchidos!`, "", { duration: 3000 } );
       return;
-    }
+    }    
     this.courseService.save(this.form.value).subscribe(
       (data: ICourse) => {
         this.onSucess(data);
@@ -89,12 +96,34 @@ export class CoursesFormComponent implements OnInit {
   }
 
   checkEmpty(form: any) {
+    // just use form.status
     for (var key in form) {
       if (key == '_id') { continue; } // ignore id.
       if (form[key] === null || form[key] == "")
         return true;
     }
     return false;
+  }
+
+  getErrorMessage(fieldName: string): string {
+    const field = this.form.get(fieldName);
+    if (field?.hasError('required')) {
+      return "Campo Obrigatório";
+    }
+
+    if (field?.hasError('minlength')) {
+      // acess props field.errors['minlength']['requiredLength']
+      const requiredLength = field.errors ? field.errors['minlength']['requiredLength'] : 5;
+      return `Tamanho mínimo precisa ser de ${requiredLength} caracteres.`;
+    }
+
+    if (field?.hasError('maxlength')) {
+      // acess props field.errors['minlength']['requiredLength']
+      const requiredLength = field.errors ? field.errors['maxlength']['requiredLength'] : 5;
+      return `Tamanho máximo execido de ${requiredLength} caracteres.`;
+    }
+
+    return "Campo Inválido";
   }
 
 }
