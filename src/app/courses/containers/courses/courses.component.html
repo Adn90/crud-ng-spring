@@ -24,8 +24,8 @@
   </ng-template>
 
   <div *ngIf="courses$ | async as courses">
-    <button mat-icon-button color="acent" aria-label="Add course">
-      Adicionar Novo Curso
+    <span>Adicionar Novo Curso</span>
+    <button mat-icon-button color="acent" aria-label="Add course">      
       <mat-icon (click)="onAdd()">add</mat-icon>
     </button>
   </div>
