@@ -21,6 +21,6 @@ export class CourseResolver implements Resolve<ICourse> {
       console.log(state, 'resolver')
       return this.coursesService.loadById(route.params['id']); // edit form
     }
-    return of({ _id: "", name: "", category: ""  }); // new forms
+    return of({ _id: "", name: "", category: "", lessons: []  }); // new forms
   }
 }
