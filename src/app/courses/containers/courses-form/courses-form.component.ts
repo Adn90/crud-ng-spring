@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CoursesService } from '../../service/courses.service';
 import { ICourse } from '../../model/course';
 import { ActivatedRoute } from '@angular/router';
+import { ILesson } from '../../model/lesson';
 
 @Component({
   selector: 'app-courses-form',
@@ -16,16 +17,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CoursesFormComponent implements OnInit {
 
-  form = this.formBuilder.group({
-    _id: [''],
-    name: ['', [
-      Validators.required, 
-      Validators.minLength(5), 
-      Validators.maxLength(100),
-      Validators.pattern(/[\S]/g)] // whitespace
-    ],
-    category: ['', [Validators.required]],      
-  });
+  form!: FormGroup; // var!: type => ignores ready initialization
   titulo: string = "";
 
   disabledOnSubmit: boolean = false;
@@ -49,14 +41,29 @@ export class CoursesFormComponent implements OnInit {
     // this.activatedRoute.snapshot.data['course'] - the ['course'] was defined in the resolver - routing file
     // with forms, its need to use setValue or patch
     const course: ICourse = this.activatedRoute.snapshot.data['course'];
-    console.log(course)
-    if (!this.checkEmpty(course)) {
-      this.form.setValue({
-        _id: course._id,
-        name: course.name,
-        category: course.category,
-      })
-    }
+    this.initializeForm(course);    
+  }
+
+  initializeForm(course: ICourse) {
+    // resolver will return the data, empty or not
+    this.form = this.formBuilder.group({
+      _id: [course._id],
+      name: [course.name, [
+        Validators.required, 
+        Validators.minLength(5), 
+        Validators.maxLength(100),
+        Validators.pattern(/[\S]/g)] // whitespace
+      ],
+      category: [course.category, [Validators.required]],      
+    });
+
+    // old set way
+    // console.log(course)
+    // this.form.setValue({
+    //   _id: course._id,
+    //   name: course.name,
+    //   category: course.category,
+    // })
   }
 
   onSubmit() {
@@ -124,6 +131,24 @@ export class CoursesFormComponent implements OnInit {
     }
 
     return "Campo Inválido";
+  }
+
+  private createLesson(lesson: ILesson = { id: '', name: '', youtubeUrl: '' }): FormGroup { // valores padrão, caso lesson seja null
+    return this.formBuilder.group({
+      id: [lesson.id],
+      name: [lesson.name],
+      youtubeUrl: [lesson.youtubeUrl],
+    });
+  }
+
+  private retriveLesson(course: ICourse) {
+    const lesson: FormGroup[] = [];
+    if (course?.lessons) {
+      course.lessons.forEach(lesson => this.createLesson(lesson));
+    } else {
+      lesson.push(this.createLesson()); // create new lesson
+    }
+    return lesson;
   }
 
 }
