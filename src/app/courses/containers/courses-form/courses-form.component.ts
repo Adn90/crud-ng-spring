@@ -48,22 +48,19 @@ export class CoursesFormComponent implements OnInit {
     // resolver will return the data, empty or not
     this.form = this.formBuilder.group({
       _id: [course._id],
-      name: [course.name, [
-        Validators.required, 
-        Validators.minLength(5), 
-        Validators.maxLength(100),
-        Validators.pattern(/[\S]/g)] // whitespace
+      name: [
+        course.name, [
+          Validators.required, 
+          Validators.minLength(5), 
+          Validators.maxLength(100),
+          Validators.pattern(/[\S]/g)] // whitespace
       ],
-      category: [course.category, [Validators.required]],      
+      category: [course.category, [Validators.required]],
+      lessons: this.formBuilder.array(this.retriveLesson(course))      
     });
 
-    // old set way
-    // console.log(course)
-    // this.form.setValue({
-    //   _id: course._id,
-    //   name: course.name,
-    //   category: course.category,
-    // })
+    console.log(this.form)
+    console.log(this.form.value)
   }
 
   onSubmit() {
@@ -142,13 +139,13 @@ export class CoursesFormComponent implements OnInit {
   }
 
   private retriveLesson(course: ICourse) {
-    const lesson: FormGroup[] = [];
+    const lessons: FormGroup[] = [];
     if (course?.lessons) {
-      course.lessons.forEach(lesson => this.createLesson(lesson));
+      course.lessons.forEach(lesson => lessons.push(this.createLesson(lesson)));
     } else {
-      lesson.push(this.createLesson()); // create new lesson
+      lessons.push(this.createLesson()); // create new lesson
     }
-    return lesson;
+    return lessons;
   }
 
 }
