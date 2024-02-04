@@ -23,15 +23,15 @@
   
     <mat-cell *matCellDef="let course" class="action-column">
 
-      <button mat-icon-button color="acent" aria-label="Add course" *ngIf="showAdd">
+      <button mat-icon-button color="accent" aria-label="Add course" *ngIf="showAdd">
         <mat-icon (click)="onAdd()">add</mat-icon>
       </button>
 
-      <button mat-icon-button color="acent" aria-label="Edit course" *ngIf="showEdit">
+      <button mat-icon-button color="accent" aria-label="Edit course" *ngIf="showEdit">
         <mat-icon (click)="onEdit(course)">edit</mat-icon>
       </button>
   
-      <button mat-icon-button color="acent" aria-label="Delete course" *ngIf="showDelete">
+      <button mat-icon-button color="accent" aria-label="Delete course" *ngIf="showDelete">
         <mat-icon (click)="onDelete(course)">delete</mat-icon>
       </button>
 

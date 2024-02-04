@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Location } from '@angular/common';
 
@@ -146,6 +146,12 @@ export class CoursesFormComponent implements OnInit {
       lessons.push(this.createLesson()); // create new lesson
     }
     return lessons;
+  }
+
+  getLessonsFormArray() {
+    // Property 'controls' does not exist on type 'AbstractControl'.
+    // the cast makes ts undestand
+    return (this.form.get('lessons') as FormArray).controls;
   }
 
 }

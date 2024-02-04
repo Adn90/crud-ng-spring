@@ -32,3 +32,31 @@ $custom-app-primary: mat-palette($mat-blue);
 > Apresentação - components
 
 - apenas geram algo visual, como a tabela que recebe dados vindo do serviço
+
+
+
+# FormArray
+* fixes "Property 'controls' does not exist on type 'AbstractControl'"
+
+- https://stackoverflow.com/questions/46926182/property-controls-does-not-exist-on-type-abstractcontrol-angular-4
+
+You can fix it easily though. Outsource the "get the controls" logic into a method of your component code (the .ts file):
+
+```ts
+getControls() {
+  return (this.recipeForm.get('controlName') as FormArray).controls;
+}
+```
+In the template, you can then use:
+```html
+<div *ngFor="let ingredientCtrl of getControls(); let i = index"></div>
+```
+This adjustment is required due to the way TS works and Angular parses your templates (it doesn't understand TS there).
+
+
+## Template perfomance
+
+```html
+<!-- get index improves performance -->
+<div *ngFor="let lesson of getLessonsFormArray(); let i = index"></div>
+```
