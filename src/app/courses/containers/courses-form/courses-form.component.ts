@@ -154,4 +154,14 @@ export class CoursesFormComponent implements OnInit {
     return (this.form.get('lessons') as FormArray).controls;
   }
 
+  addNewLesson() {
+    const lessons =  (this.form.get('lessons') as FormArray);
+    lessons.push(this.createLesson());
+  }
+
+  removeLesson(index: number) {
+    const lessons =  (this.form.get('lessons') as FormArray);
+    lessons.removeAt(index);
+  }
+
 }
