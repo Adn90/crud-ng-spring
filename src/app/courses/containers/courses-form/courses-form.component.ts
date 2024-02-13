@@ -56,7 +56,7 @@ export class CoursesFormComponent implements OnInit {
           Validators.pattern(/[\S]/g)] // whitespace
       ],
       category: [course.category, [Validators.required]],
-      lessons: this.formBuilder.array(this.retriveLesson(course))      
+      lessons: this.formBuilder.array(this.retriveLesson(course), Validators.required)      
     });
 
     console.log(this.form)
@@ -67,7 +67,7 @@ export class CoursesFormComponent implements OnInit {
     this.snackBar.dismiss();
     console.log(this.form.status)
     console.log(this.form)
-    if (this.form.status != "VALID") {
+    if (!this.form.valid) {
       this.snackBar.open(`Campos não foram preenchidos!`, "", { duration: 3000 } );
       return;
     }    
@@ -133,8 +133,16 @@ export class CoursesFormComponent implements OnInit {
   private createLesson(lesson: ILesson = { id: '', name: '', youtubeUrl: '' }): FormGroup { // valores padrão, caso lesson seja null
     return this.formBuilder.group({
       id: [lesson.id],
-      name: [lesson.name],
-      youtubeUrl: [lesson.youtubeUrl],
+      name: [lesson.name, [
+        Validators.required, 
+        Validators.minLength(5), 
+        Validators.maxLength(100),
+        Validators.pattern(/[\S]/g)]],
+      youtubeUrl: [lesson.youtubeUrl, [
+        Validators.required, 
+        Validators.minLength(10), 
+        Validators.maxLength(11),
+        Validators.pattern(/[\S]/g)]],
     });
   }
 
@@ -162,6 +170,11 @@ export class CoursesFormComponent implements OnInit {
   removeLesson(index: number) {
     const lessons =  (this.form.get('lessons') as FormArray);
     lessons.removeAt(index);
+  }
+
+  isFormArrayRequired(): boolean {
+    const lessons =  (this.form.get('lessons') as FormArray);
+    return !lessons.valid && lessons.hasError('required') && lessons.touched;
   }
 
 }
