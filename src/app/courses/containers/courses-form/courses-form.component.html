@@ -8,18 +8,17 @@
         <mat-form-field class="full-width">
           <input matInput placeholder="Nome" formControlName="name" required #varName>
           <mat-hint align="end">{{ varName.value?.length || 0 }}/10</mat-hint>
-          <mat-error *ngIf="form.get('name')?.invalid">{{ getErrorMessage("name") }}</mat-error>
+          <mat-error *ngIf="form.get('name')?.invalid">{{ formUtils.getErrorMessage(form, "name") }}</mat-error>
         </mat-form-field>
     
         <mat-form-field class="full-width">
           <mat-label>Categoria</mat-label>
           <mat-select formControlName="category" required>
-            <mat-option value="null">Nenhum</mat-option>
             <mat-option value="Front-end">Front-End</mat-option>
             <mat-option value="Back-end">Back-End</mat-option>
             <mat-option value="Games">Games</mat-option>
           </mat-select>
-          <mat-error *ngIf="form.get('category')?.invalid">{{ getErrorMessage("category") }}</mat-error>
+          <mat-error *ngIf="form.get('category')?.invalid">{{ formUtils.getErrorMessage(form,"category") }}</mat-error>
         </mat-form-field>
 
         <mat-toolbar color="primary">
@@ -31,7 +30,7 @@
 
         <mat-error 
           class="form-array-error"
-          *ngIf="isFormArrayRequired()"
+          *ngIf="formUtils.isFormArrayRequired(form, 'lessons')"
         >Adicione ao menos uma aula.</mat-error>
 
         <table 
@@ -46,7 +45,13 @@
                 <input matInput formControlName="name">
                 <mat-error 
                   *ngIf="getLessonsFormArray()[i].get('name')?.invalid"
-                >Campo inválido</mat-error>
+                >{{ 
+                  formUtils.getFormArryFieldErrorMessage(
+                  form, 
+                  'lessons', 
+                  'name', 
+                  i 
+                ) }}</mat-error>
               </mat-form-field>
             </td>
             <td style="width: 35%">
@@ -56,7 +61,13 @@
                 <input matInput formControlName="youtubeUrl">
                 <mat-error 
                   *ngIf="getLessonsFormArray()[i].get('youtubeUrl')?.invalid"
-                >Campo inválido</mat-error>
+                >{{
+                  formUtils.getFormArryFieldErrorMessage(
+                  form, 
+                  'lessons', 
+                  'youtubeUrl', 
+                  i 
+                )}}</mat-error>
               </mat-form-field>
             </td>
             <td>
