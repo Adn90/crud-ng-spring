@@ -92,7 +92,7 @@ export class CoursesFormComponent implements OnInit {
   }
 
   onSucess(data: ICourse) {
-    this.snackBar.open(`Curso ${data.name} foi incluído com sucesso!`, "", { duration: 3000 } );
+    this.snackBar.open(`Curso ${data.name} foi incluído/atualizado com sucesso!`, "", { duration: 3000 } );
     setTimeout(() => {
       this.onCancel();
     }, 3000);    

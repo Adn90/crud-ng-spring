@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { tap, first, take, delay  } from 'rxjs/operators';
 
 import { ICourse } from '../model/course';
+import { ICoursePage } from '../model/course-page';
 
 // injeção de dependência
 @Injectable({
@@ -15,7 +16,7 @@ export class CoursesService {
   constructor(private httpClient: HttpClient) { }
 
   list() {
-    return this.httpClient.get<ICourse[]>(this.API)
+    return this.httpClient.get<ICoursePage>(this.API)
     .pipe(
       delay(100),
       first(), // or take(1) // serve para fechar a conexão com server. Aqui, o server não é reativo /um stream de dados/ websocket

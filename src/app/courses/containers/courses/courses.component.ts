@@ -14,6 +14,7 @@ import { ICourse } from '../../model/course';
 import { CoursesService } from '../../service/courses.service';
 import { DialogService } from 'src/app/shared/components/error-dialog/services/dialog.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { ICoursePage } from '../../model/course-page';
 
 
 @Component({
@@ -23,7 +24,7 @@ import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmat
 })
 export class CoursesComponent implements OnInit {
 
-  courses$: Observable<ICourse[]> = of([]);
+  courses$: Observable<ICoursePage> = of({ courses: [], totalElements: 0, totalPages: 0 });
   displayedColumns = ["name", "category", "action"];
 
   errorHeader: string = "";
@@ -39,16 +40,16 @@ export class CoursesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.carregarTabela(); 
+    this.refresh(); 
   }
 
-  async carregarTabela() {
+  async refresh() {
     this.courses$ = this.courseService.list()
     .pipe(
       catchError((error: HttpErrorResponse ) => {
         console.log(error)
         this.onError(error)
-        return of([]);
+        return of({ courses: [], totalElements: 0, totalPages: 0 });
       })
     );
   }
@@ -91,7 +92,7 @@ export class CoursesComponent implements OnInit {
             verticalPosition: 'top',
             horizontalPosition: 'center'
           });
-          await this.carregarTabela();
+          await this.refresh();
         }, 
         error => {
           this.onError(error)

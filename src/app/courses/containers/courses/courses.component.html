@@ -4,9 +4,10 @@
 
   <!-- var Observable courses$ c/ pipe async as courses -->
   <!-- enquanto não terminar a chamdas async, else loading -> spinner -->
-  <div class="example-container mat-elevation-z8 column-flex" *ngIf="courses$ | async as courses; else loading">
+  <div class="example-container mat-elevation-z8 column-flex">
     <app-courses-list
-    [courses]="courses"
+    *ngIf="courses$ | async as courses; else loading"
+    [courses]="courses.courses"
     [displayedColumns]="displayedColumns"
     [showActions]="true"
     [showEdit]="true"
@@ -15,6 +16,12 @@
     (edit)="onEdit($event)"
     (delete)="onDelete($event)"
     ></app-courses-list>
+    <mat-paginator 
+      #paginator
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 20]"
+      [showFirstLastButtons]="true">
+    </mat-paginator>
   </div>
 
   <ng-template #loading>
