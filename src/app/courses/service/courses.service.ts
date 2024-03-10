@@ -15,8 +15,8 @@ export class CoursesService {
   // instância  da classe
   constructor(private httpClient: HttpClient) { }
 
-  list() {
-    return this.httpClient.get<ICoursePage>(this.API)
+  list(page = 0, pageSize = 10) {
+    return this.httpClient.get<ICoursePage>(this.API, { params: { page, pageSize } }) //  same as { params: { page: page, pageSize: pageSize } }
     .pipe(
       delay(100),
       first(), // or take(1) // serve para fechar a conexão com server. Aqui, o server não é reativo /um stream de dados/ websocket

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Observable, of } from 'rxjs';
-import { catchError  } from 'rxjs/operators';
+import { catchError, tap  } from 'rxjs/operators';
 
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
 
@@ -15,6 +15,7 @@ import { CoursesService } from '../../service/courses.service';
 import { DialogService } from 'src/app/shared/components/error-dialog/services/dialog.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { ICoursePage } from '../../model/course-page';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 
 @Component({
@@ -28,6 +29,10 @@ export class CoursesComponent implements OnInit {
   displayedColumns = ["name", "category", "action"];
 
   errorHeader: string = "";
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator; // reference to mat-paginator tag in html
+  pageIndex: number = 0;
+  pageSize: number = 10;
 
   // só é possível pois o CoursesService é @Injectable
   constructor(
@@ -43,9 +48,14 @@ export class CoursesComponent implements OnInit {
     this.refresh(); 
   }
 
-  async refresh() {
-    this.courses$ = this.courseService.list()
+  // regular args in backend
+  async refresh(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10 }) {
+    this.courses$ = this.courseService.list(pageEvent.pageIndex, pageEvent.pageSize)
     .pipe(
+      tap(() => {
+        this.pageIndex = pageEvent.pageIndex;
+        this.pageSize = pageEvent.pageSize;
+      }),
       catchError((error: HttpErrorResponse ) => {
         console.log(error)
         this.onError(error)
